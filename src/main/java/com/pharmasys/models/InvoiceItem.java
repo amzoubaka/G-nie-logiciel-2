@@ -5,24 +5,21 @@ package com.pharmasys.models;
  */
 public class InvoiceItem {
     private int id;
-    private int factureId;
-    private int produitId;
-    private String nomProduit;
-    private String reference;
-    private int quantite;
-    private double prixUnitaire;
-    private double sousTotal;
+    private int invoiceId;
+    private int productId;
+    private String productName;
+    private int quantity;
+    private double unitPrice;
+    private double subtotal;
     
     public InvoiceItem() {}
     
-    public InvoiceItem(int produitId, String nomProduit, String reference, 
-                       int quantite, double prixUnitaire) {
-        this.produitId = produitId;
-        this.nomProduit = nomProduit;
-        this.reference = reference;
-        this.quantite = quantite;
-        this.prixUnitaire = prixUnitaire;
-        this.sousTotal = quantite * prixUnitaire;
+    public InvoiceItem(int productId, String productName, int quantity, double unitPrice) {
+        this.productId = productId;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.subtotal = quantity * unitPrice;
     }
     
     // Getters and Setters
@@ -34,61 +31,53 @@ public class InvoiceItem {
         this.id = id;
     }
     
-    public int getFactureId() {
-        return factureId;
+    public int getInvoiceId() {
+        return invoiceId;
     }
     
-    public void setFactureId(int factureId) {
-        this.factureId = factureId;
+    public void setInvoiceId(int invoiceId) {
+        this.invoiceId = invoiceId;
     }
     
-    public int getProduitId() {
-        return produitId;
+    public int getProductId() {
+        return productId;
     }
     
-    public void setProduitId(int produitId) {
-        this.produitId = produitId;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
     
-    public String getNomProduit() {
-        return nomProduit;
+    public String getProductName() {
+        return productName;
     }
     
-    public void setNomProduit(String nomProduit) {
-        this.nomProduit = nomProduit;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
     
-    public String getReference() {
-        return reference;
+    public int getQuantity() {
+        return quantity;
     }
     
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+        this.subtotal = quantity * unitPrice;
     }
     
-    public int getQuantite() {
-        return quantite;
+    public double getUnitPrice() {
+        return unitPrice;
     }
     
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
-        this.sousTotal = quantite * prixUnitaire;
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+        this.subtotal = quantity * unitPrice;
     }
     
-    public double getPrixUnitaire() {
-        return prixUnitaire;
+    public double getSubtotal() {
+        return subtotal;
     }
     
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
-        this.sousTotal = quantite * prixUnitaire;
-    }
-    
-    public double getSousTotal() {
-        return sousTotal;
-    }
-    
-    public void setSousTotal(double sousTotal) {
-        this.sousTotal = sousTotal;
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
 }

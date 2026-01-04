@@ -78,6 +78,10 @@ public class User {
         return "pharmacien".equals(role) || isAdmin();
     }
     
+    public String getFullName() {
+        return username; // Could be improved with separate firstName/lastName fields
+    }
+    
     @Override
     public String toString() {
         return "User{" +

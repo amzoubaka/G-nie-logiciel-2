@@ -109,6 +109,48 @@ public class Product {
         this.updatedAt = updatedAt;
     }
     
+    // English aliases for new code compatibility
+    public String getName() {
+        return nom;
+    }
+    
+    public void setName(String name) {
+        this.nom = name;
+    }
+    
+    public int getQuantity() {
+        return quantite;
+    }
+    
+    public void setQuantity(int quantity) {
+        this.quantite = quantity;
+    }
+    
+    public double getPrice() {
+        return prix;
+    }
+    
+    public void setPrice(double price) {
+        this.prix = price;
+    }
+    
+    public String getExpirationDate() {
+        if (datePeremption != null) {
+            return new java.text.SimpleDateFormat("yyyy-MM-dd").format(datePeremption);
+        }
+        return null;
+    }
+    
+    public void setExpirationDate(String expirationDate) {
+        if (expirationDate != null && !expirationDate.isEmpty()) {
+            try {
+                this.datePeremption = new java.text.SimpleDateFormat("yyyy-MM-dd").parse(expirationDate);
+            } catch (java.text.ParseException e) {
+                // Ignore parse errors
+            }
+        }
+    }
+    
     @Override
     public String toString() {
         return nom + " - " + reference;

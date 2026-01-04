@@ -1,7 +1,7 @@
 package com.pharmasys.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,16 +9,20 @@ import java.util.List;
  */
 public class Invoice {
     private int id;
+    private String invoiceNumber;
     private int clientId;
-    private String nomClient;
-    private Date dateFacture;
-    private double montantTotal;
-    private int createdBy;
+    private int userId;
+    private double totalAmount;
+    private String paymentMethod;
+    private String notes;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private List<InvoiceItem> items;
     
     public Invoice() {
         this.items = new ArrayList<>();
-        this.dateFacture = new Date();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
     
     // Getters and Setters
@@ -30,6 +34,14 @@ public class Invoice {
         this.id = id;
     }
     
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+    
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+    
     public int getClientId() {
         return clientId;
     }
@@ -38,36 +50,52 @@ public class Invoice {
         this.clientId = clientId;
     }
     
-    public String getNomClient() {
-        return nomClient;
+    public int getUserId() {
+        return userId;
     }
     
-    public void setNomClient(String nomClient) {
-        this.nomClient = nomClient;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
     
-    public Date getDateFacture() {
-        return dateFacture;
+    public double getTotalAmount() {
+        return totalAmount;
     }
     
-    public void setDateFacture(Date dateFacture) {
-        this.dateFacture = dateFacture;
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
     
-    public double getMontantTotal() {
-        return montantTotal;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
     
-    public void setMontantTotal(double montantTotal) {
-        this.montantTotal = montantTotal;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
     
-    public int getCreatedBy() {
-        return createdBy;
+    public String getNotes() {
+        return notes;
     }
     
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+    
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
     
     public List<InvoiceItem> getItems() {

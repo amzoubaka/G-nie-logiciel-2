@@ -74,7 +74,39 @@ public class Client {
     }
     
     public String getFullName() {
-        return prenom + " " + nom;
+        if (prenom != null && nom != null) {
+            return prenom + " " + nom;
+        }
+        return "";
+    }
+    
+    public void setFullName(String fullName) {
+        // Simple split - could be improved
+        if (fullName != null && fullName.contains(" ")) {
+            String[] parts = fullName.split(" ", 2);
+            this.prenom = parts[0];
+            this.nom = parts.length > 1 ? parts[1] : "";
+        } else {
+            this.nom = fullName;
+            this.prenom = fullName;
+        }
+    }
+    
+    // English aliases
+    public String getPhoneNumber() {
+        return telephone;
+    }
+    
+    public void setPhoneNumber(String phoneNumber) {
+        this.telephone = phoneNumber;
+    }
+    
+    public String getAddress() {
+        return quartier;
+    }
+    
+    public void setAddress(String address) {
+        this.quartier = address;
     }
     
     @Override
