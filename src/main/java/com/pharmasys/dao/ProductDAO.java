@@ -25,9 +25,10 @@ public class ProductDAO {
         String sql = "INSERT INTO products (nom, reference, quantite, prix, date_peremption, validite, emplacement, created_by) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
+        Connection conn = DatabaseManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        try {
             pstmt.setString(1, product.getNom());
             pstmt.setString(2, product.getReference());
             pstmt.setInt(3, product.getQuantite());
@@ -43,12 +44,18 @@ public class ProductDAO {
             pstmt.setString(7, product.getEmplacement());
             pstmt.setInt(8, product.getCreatedBy());
             
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
             
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
+            if (affectedRows > 0) {
+                try (Statement stmt = conn.createStatement();
+                     ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
+                    if (rs.next()) {
+                        return rs.getInt(1);
+                    }
+                }
             }
+        } finally {
+            if (pstmt != null) pstmt.close();
         }
         
         return -1;

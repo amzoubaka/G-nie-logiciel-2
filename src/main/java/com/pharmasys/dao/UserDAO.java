@@ -66,4 +66,23 @@ public class UserDAO {
         
         return user;
     }
+    
+    /**
+     * Récupère tous les utilisateurs
+     */
+    public java.util.List<User> findAll() throws SQLException {
+        java.util.List<User> users = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM users ORDER BY username";
+        
+        try (Connection conn = DatabaseManager.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                users.add(extractUserFromResultSet(rs));
+            }
+        }
+        
+        return users;
+    }
 }

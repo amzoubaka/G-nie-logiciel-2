@@ -19,21 +19,29 @@ public class ClientDAO {
     public int insert(Client client) throws SQLException {
         String sql = "INSERT INTO clients (nom, prenom, quartier, age, telephone) VALUES (?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            
+        Connection conn = DatabaseManager.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        try {
             pstmt.setString(1, client.getNom());
             pstmt.setString(2, client.getPrenom());
             pstmt.setString(3, client.getQuartier());
             pstmt.setInt(4, client.getAge());
             pstmt.setString(5, client.getTelephone());
             
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
             
-            ResultSet rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1);
+            if (affectedRows > 0) {
+                // SQLite returns the last inserted row ID
+                try (Statement stmt = conn.createStatement();
+                     ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
+                    if (rs.next()) {
+                        return rs.getInt(1);
+                    }
+                }
             }
+        } finally {
+            if (pstmt != null) pstmt.close();
         }
         
         return -1;
