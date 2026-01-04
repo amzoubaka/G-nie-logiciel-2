@@ -41,27 +41,28 @@ CREATE TABLE IF NOT EXISTS clients (
 -- Table des factures
 CREATE TABLE IF NOT EXISTS invoices (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    client_id INTEGER,
-    nom_client VARCHAR(100) NOT NULL,
-    date_facture TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    montant_total DECIMAL(10,2) NOT NULL,
-    created_by INTEGER,
+    invoice_number VARCHAR(50) UNIQUE NOT NULL,
+    client_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES clients(id),
-    FOREIGN KEY (created_by) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Table des lignes de facture
 CREATE TABLE IF NOT EXISTS invoice_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    facture_id INTEGER NOT NULL,
-    produit_id INTEGER NOT NULL,
-    nom_produit VARCHAR(100) NOT NULL,
-    reference VARCHAR(50) NOT NULL,
-    quantite INTEGER NOT NULL CHECK(quantite > 0),
-    prix_unitaire DECIMAL(10,2) NOT NULL,
-    sous_total DECIMAL(10,2) NOT NULL,
-    FOREIGN KEY (facture_id) REFERENCES invoices(id),
-    FOREIGN KEY (produit_id) REFERENCES products(id)
+    invoice_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
+    quantity INTEGER NOT NULL CHECK(quantity > 0),
+    unit_price DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 -- Table des logs système
@@ -78,5 +79,6 @@ CREATE TABLE IF NOT EXISTS system_logs (
 CREATE INDEX IF NOT EXISTS idx_products_reference ON products(reference);
 CREATE INDEX IF NOT EXISTS idx_products_nom ON products(nom);
 CREATE INDEX IF NOT EXISTS idx_clients_telephone ON clients(telephone);
-CREATE INDEX IF NOT EXISTS idx_invoices_date ON invoices(date_facture);
+CREATE INDEX IF NOT EXISTS idx_invoices_date ON invoices(created_at);
+CREATE INDEX IF NOT EXISTS idx_invoices_number ON invoices(invoice_number);
 CREATE INDEX IF NOT EXISTS idx_logs_timestamp ON system_logs(timestamp);
