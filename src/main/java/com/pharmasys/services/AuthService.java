@@ -62,6 +62,13 @@ public class AuthService {
     }
     
     /**
+     * Récupère tous les utilisateurs
+     */
+    public java.util.List<User> getAllUsers() throws java.sql.SQLException {
+        return userDAO.findAll();
+    }
+    
+    /**
      * Vérifie si l'utilisateur a la permission
      */
     public boolean hasPermission(String requiredRole) {
